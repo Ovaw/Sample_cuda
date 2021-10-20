@@ -41,7 +41,7 @@ int main(int argc, char* argv[])
 	glutCreateWindow(argv[0]);       // OpenGLによる表示用ウインドウの生成 引数は名前
 	glutDisplayFunc(display);        // 表示用コールバック関数の設定 
 	initGL();    
-	glutMainLoop();					 // イベントの発生を待ち続けるループ関数の一種 ユーザの強制終了まで待機し続ける
+	glutMainLoop();                  // イベントの発生を待ち続けるループ関数の一種 ユーザの強制終了まで待機し続ける
 
 	return 0;
 }
