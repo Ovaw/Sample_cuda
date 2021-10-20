@@ -6,7 +6,7 @@ void display(void)
 	glFlush();
 }
 
-void initFL(void)
+void initGL(void)
 {
 	glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
 }
@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
 	glutInitDisplayMode(GLUT_RGBA);
 	glutCreateWindow(argv[0]);
 	glutDisplayFunc(display);
-	//initGL();
+	initGL();
 	glutMainLoop();
 	return 0;
 }
