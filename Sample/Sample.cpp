@@ -11,7 +11,7 @@ void display(void)
 {
 	unsigned int i;
 	glClear(GL_COLOR_BUFFER_BIT);
-	glBegin(GL_POINTS);                   // これから描く図形のタイプ：点群の描画
+	glBegin(GL_LINE_LOOP);                   // これから描く図形のタイプ：折れ線の描画
 
 	for (i = 0; i < num_points; i++)
 		glVertex3d(point[i][X], point[i][Y], point[i][Z]);
