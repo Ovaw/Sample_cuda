@@ -10,19 +10,19 @@ double point[][3] = { {0.5, 0.5, 0.0}, {-0.5, 0.5, 0.0}, {-0.5, -0.5, 0.0}, {0.5
 void display(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT);
-	glBegin(GL_TRIANGLES);                   // これから描く図形のタイプ：三角形の描画
+	glBegin(GL_TRIANGLES);          // これから描く図形のタイプ：三角形の描画
 
-	glVertex3d(point[0][X], point[0][Y], point[0][Z]);
-	glVertex3d(point[1][X], point[1][Y], point[1][Z]);
-	glVertex3d(point[4][X], point[4][Y], point[4][Z]);
+	glVertex3dv(point[0]);          // glVertex3dv() 座標配列のポインタで指定
+	glVertex3dv(point[1]);
+	glVertex3dv(point[4]);
 
-	glVertex3d(point[1][X], point[1][Y], point[1][Z]);
-	glVertex3d(point[2][X], point[2][Y], point[2][Z]);
-	glVertex3d(point[4][X], point[4][Y], point[4][Z]);
+	glVertex3dv(point[1]);
+	glVertex3dv(point[2]);
+	glVertex3dv(point[4]);
 
-	glVertex3d(point[2][X], point[2][Y], point[2][Z]);
-	glVertex3d(point[3][X], point[3][Y], point[3][Z]);
-	glVertex3d(point[4][X], point[4][Y], point[4][Z]);
+	glVertex3dv(point[2]);
+	glVertex3dv(point[3]);
+	glVertex3dv(point[4]);
 
 	glEnd();
 	glFlush();
