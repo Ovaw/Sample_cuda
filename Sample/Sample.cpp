@@ -12,14 +12,17 @@ void display(void)
 	glClear(GL_COLOR_BUFFER_BIT);
 	glBegin(GL_TRIANGLES);          // これから描く図形のタイプ：三角形の描画
 
+	glColor3f(1.0f, 0.0f, 0.0f);    // 着色 赤
 	glVertex3dv(point[0]);          // glVertex3dv() 座標配列のポインタで指定
 	glVertex3dv(point[1]);
 	glVertex3dv(point[4]);
 
+	glColor3f(0.0f, 1.0f, 0.0f);    // 緑
 	glVertex3dv(point[1]);
 	glVertex3dv(point[2]);
 	glVertex3dv(point[4]);
 
+	glColor3f(0.0f, 0.0f, 1.0f);    // 青
 	glVertex3dv(point[2]);
 	glVertex3dv(point[3]);
 	glVertex3dv(point[4]);
