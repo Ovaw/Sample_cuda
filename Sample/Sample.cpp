@@ -9,15 +9,20 @@ double point[][3] = { {0.5, 0.5, 0.0}, {-0.5, 0.5, 0.0}, {-0.5, -0.5, 0.0}, {0.5
 
 void display(void)
 {
-	unsigned int i;
 	glClear(GL_COLOR_BUFFER_BIT);
-	glBegin(GL_POLYGON);                   // これから描く図形のタイプ：ポリゴンの描画
+	glBegin(GL_TRIANGLES);                   // これから描く図形のタイプ：三角形の描画
 
 	glVertex3d(point[0][X], point[0][Y], point[0][Z]);
 	glVertex3d(point[1][X], point[1][Y], point[1][Z]);
+	glVertex3d(point[4][X], point[4][Y], point[4][Z]);
+
+	glVertex3d(point[1][X], point[1][Y], point[1][Z]);
+	glVertex3d(point[2][X], point[2][Y], point[2][Z]);
+	glVertex3d(point[4][X], point[4][Y], point[4][Z]);
+
 	glVertex3d(point[2][X], point[2][Y], point[2][Z]);
 	glVertex3d(point[3][X], point[3][Y], point[3][Z]);
-	// glVertex3d(point[4][X], point[4][Y], point[4][Z]); // 凹部分ができて正しく描画されない
+	glVertex3d(point[4][X], point[4][Y], point[4][Z]);
 
 	glEnd();
 	glFlush();
