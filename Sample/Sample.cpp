@@ -9,6 +9,9 @@ double point[][3] = { {1.3, 1.3, 0.0}, {0.3, 1.3, 0.0}, {0.3, 0.3, 0.0}, {1.3, 0
 
 void display(void)
 {
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(-2.0, 2.0, -2.0, 2.0, -100.0, 100.0);
 	glClear(GL_COLOR_BUFFER_BIT);
 	glBegin(GL_TRIANGLES);          // これから描く図形のタイプ：三角形の描画
 
