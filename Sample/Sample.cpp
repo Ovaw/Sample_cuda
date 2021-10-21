@@ -41,12 +41,14 @@ void initGL(void)
 
 int main(int argc, char* argv[])
 {
-	glutInit(&argc, argv);           // glutライブラリの初期化
-	glutInitDisplayMode(GLUT_RGBA);  // 表示に用いるフレームバッファの設定 GLUT_RGBA:ビットごとの論理和 GLUT_DEPTH:デプスバッファ処理に対応
-	glutCreateWindow(argv[0]);       // OpenGLによる表示用ウインドウの生成 引数は名前
-	glutDisplayFunc(display);        // 表示用コールバック関数の設定 
+	glutInitWindowPosition(128, 128); // ウインドウ位置指定（左上隅）
+	glutInitWindowSize(768, 768);     // ウインドウサイズ指定
+	glutInit(&argc, argv);            // glutライブラリの初期化
+	glutInitDisplayMode(GLUT_RGBA);   // 表示に用いるフレームバッファの設定 GLUT_RGBA:ビットごとの論理和 GLUT_DEPTH:デプスバッファ処理に対応
+	glutCreateWindow(argv[0]);        // OpenGLによる表示用ウインドウの生成 引数は名前
+	glutDisplayFunc(display);         // 表示用コールバック関数の設定 
 	initGL();
-	glutMainLoop();                  // イベントの発生を待ち続けるループ関数の一種 ユーザの強制終了まで待機し続ける
+	glutMainLoop();                   // イベントの発生を待ち続けるループ関数の一種 ユーザの強制終了まで待機し続ける
 
 	return 0;
 }
