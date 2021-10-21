@@ -11,10 +11,14 @@ void display(void)
 {
 	unsigned int i;
 	glClear(GL_COLOR_BUFFER_BIT);
-	glBegin(GL_LINE_LOOP);                   // これから描く図形のタイプ：折れ線の描画
+	glBegin(GL_POLYGON);                   // これから描く図形のタイプ：ポリゴンの描画
 
-	for (i = 0; i < num_points; i++)
-		glVertex3d(point[i][X], point[i][Y], point[i][Z]);
+	glVertex3d(point[0][X], point[0][Y], point[0][Z]);
+	glVertex3d(point[1][X], point[1][Y], point[1][Z]);
+	glVertex3d(point[2][X], point[2][Y], point[2][Z]);
+	glVertex3d(point[3][X], point[3][Y], point[3][Z]);
+	// glVertex3d(point[4][X], point[4][Y], point[4][Z]); // 凹部分ができて正しく描画されない
+
 	glEnd();
 	glFlush();
 }
