@@ -66,11 +66,34 @@ void initGL(void)
 
 void resize(int width, int height) // 新しいサイズを取得し記録する
 {
+	unsigned int i;
 	double dx, dy, d_aspect, w_aspect, d;
+	double margin;
 
 	// ウインドウサイズの取得
-	window_width  = width;
+	window_width = width;
 	window_height = height;
+
+	// 座標の範囲の読み取り
+	init_left = init_bottom = 10000.0;
+	init_right = init_top = -10000.0;
+	for (i = 0; i < num_points; i++) {
+		if (point[i][X] < init_left)
+			init_left = point[i][X];
+		if (point[i][X] > init_right)
+			init_right = point[i][X];
+		if (point[i][Y] < init_bottom)
+			init_bottom = point[i][Y];
+		if (point[i][Y] > init_top)
+			init_top = point[i][Y];
+	}
+
+	// 周囲を5%だけ広げる
+	margin = (init_right - init_left) * 0.05;
+	init_left -= margin;
+	init_right += margin;
+	init_bottom -= margin;
+	init_top += margin;
 
 	// 表示範囲のアスペクト比とウィンドウのアスペクト比の比較
 	dx = init_right - init_left;
