@@ -5,8 +5,8 @@
 #define Y 1
 #define Z 2
 
-unsigned int num_points = 5;
-double point[][3] = { {1.3, 1.3, 0.0}, {0.3, 1.3, 0.0}, {0.3, 0.3, 0.0}, {1.3, 0.3, 0.0}, {0.8, 0.8, 0.0} };
+unsigned int num_points = 8;
+double point[][3] = { {1.0, 1.0, -1.0}, {-1.0, 1.0, -1.0}, {-1.0, -1.0, -1.0}, {1.0, -1.0, -1.0}, {1.0, 1.0, 1.0}, {-1.0, 1.0, 1.0}, {-1.0, -1.0, 1.0}, { 1.0, -1.0, 1.0} };
 
 unsigned int window_width, window_height; // ウインドウサイズ用大域変数
 
@@ -27,33 +27,43 @@ void display(void)
 	glViewport(0, 0, window_width, window_height);    // 投影によって得られた画像をウィンドウにはめ込む
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	glBegin(GL_TRIANGLES);                            // これから描く図形のタイプ：三角形の描画
-	
-	//glColor3f(0.1f, 0.1f, 0.1f); // 背景色	1
-	//glVertex3f(left, top, 0.0f);
-	//glVertex3f(right, top, 0.0f);
-	//glVertex3f(left, bottom, 0.0f);
+	glBegin(GL_LINES);                            // これから描く図形のタイプ
 
-	//glColor3f(0.1f, 0.1f, 0.1f); // 背景色2
-	//glVertex3f(right, top, 0.0f);
-	//glVertex3f(left, bottom, 0.0f);
-	//glVertex3f(right, bottom, 0.0f);
-
-
-	glColor3f(1.0f, 0.0f, 0.0f);  // 着色 赤
-	glVertex3dv(point[0]);        // glVertex3dv() 座標配列のポインタで指定
+	glVertex3dv(point[0]);
 	glVertex3dv(point[1]);
-	glVertex3dv(point[4]);
 
-	glColor3f(0.0f, 1.0f, 0.0f);  // 緑
 	glVertex3dv(point[1]);
 	glVertex3dv(point[2]);
-	glVertex3dv(point[4]);
 
-	glColor3f(0.0f, 0.0f, 1.0f);  // 青
 	glVertex3dv(point[2]);
 	glVertex3dv(point[3]);
+
+	glVertex3dv(point[3]);
+	glVertex3dv(point[0]);
+
 	glVertex3dv(point[4]);
+	glVertex3dv(point[5]);
+
+	glVertex3dv(point[5]);
+	glVertex3dv(point[6]);
+
+	glVertex3dv(point[6]);
+	glVertex3dv(point[7]);
+
+	glVertex3dv(point[7]);
+	glVertex3dv(point[4]);
+
+	glVertex3dv(point[0]);
+	glVertex3dv(point[4]);
+
+	glVertex3dv(point[1]);
+	glVertex3dv(point[5]);
+	
+	glVertex3dv(point[2]);
+	glVertex3dv(point[6]);
+
+	glVertex3dv(point[3]);
+	glVertex3dv(point[7]);
 
 	glEnd();
 	glFlush();
