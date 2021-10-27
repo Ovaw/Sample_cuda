@@ -5,19 +5,26 @@
 #define Y 1
 #define Z 2
 
+
+// 大域変数
 unsigned int num_points = 8;
 double point[][3] = { {1.0, 1.0, -1.0}, {-1.0, 1.0, -1.0}, {-1.0, -1.0, -1.0}, {1.0, -1.0, -1.0}, {1.0, 1.0, 1.0}, {-1.0, 1.0, 1.0}, {-1.0, -1.0, 1.0}, { 1.0, -1.0, 1.0} };
 
-unsigned int window_width, window_height; // ウインドウサイズ用大域変数
+unsigned int window_width, window_height; // ウインドウサイズ用
 
-// 必ず表示する範囲の大域変数
+// 必ず表示する範囲
 double init_left = -2.0;
 double init_right = 2.0;
 double init_bottom = -2.0;
 double init_top = 2.0;
 
-// 補正を加えたあとの表示範囲の大域変数
+// 補正を加えたあとの表示範囲
 double left, right, bottom, top;
+
+// カメラ
+double eyes[3] = { 2.0, 1.0, 1.0 };
+double center[3] = { 0.0, 0.0, 0.0 };
+double up[3] = { 0.0, 0.0, 1.0 };
 
 void display(void)
 {
@@ -25,6 +32,9 @@ void display(void)
 	glLoadIdentity();
 	glOrtho(left, right, bottom, top, -100.0, 100.0); //表示範囲変更
 	glViewport(0, 0, window_width, window_height);    // 投影によって得られた画像をウィンドウにはめ込む
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	gluLookAt(eyes[X], eyes[Y], eyes[Z], center[X], center[Y], center[Z], up[X], up[Y], up[Z]);
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	glBegin(GL_LINES);                            // これから描く図形のタイプ
