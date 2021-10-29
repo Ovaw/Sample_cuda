@@ -6,6 +6,9 @@
 #define Y 1
 #define Z 2
 
+// 円周率
+#define PI 3.141592653589793
+
 
 // 大域変数
 unsigned int num_points = 8;
@@ -23,9 +26,9 @@ double init_top = 2.0;
 double left, right, bottom, top;
 
 // カメラ
-double eye[3] = { 2.0, 1.0, 1.0 };
+double eye[3];
 double center[3] = { 0.0, 0.0, 0.0 };
-double up[3] = { 0.0, 0.0, 1.0 };
+double up[3];
 
 // 2本のベクトルvec0とvec1の内積
 double dot(double vec0[], double vec1[])
@@ -57,12 +60,26 @@ void normVec(double vec[])
 	vec[Z] /= norm;
 }
 
-void defineViewMatrix(void)
+void defineViewMatrix(double phi, double theta)
+// double phi, theta; 方位角と仰角
 {
 	unsigned int i, j;
+	double c, s, xy_dist;
 	double x_axis[3], y_axis[3], z_axis[3], vec[3];
 	double left, right, bottom, top, farVal, nearVal, margin;
 	double dx, dy, d_aspect, w_aspect, d;
+
+	// 視点の設定
+	eye[Z] = sin(theta * PI / 180.0);
+	xy_dist = cos(theta * PI / 180.0);
+	c = cos(phi * PI / 180.0);
+	s = sin(phi * PI / 180.0);
+	eye[X] = xy_dist * c;
+	eye[Y] = xy_dist * s;
+	up[X] = -c * eye[Z];
+	up[Y] = -s * eye[Z];
+	up[Z] = s * eye[Y] + c * eye[X];
+	normVec(up);
 
 	// 視点を原点とする座標系の定義
 	for (i = 0; i < 3; i++)
@@ -135,7 +152,7 @@ void defineViewMatrix(void)
 void display(void)
 {
 	// 正射影の定義
-	defineViewMatrix();
+	defineViewMatrix(30.0, 30.0);
 
 	glClear(GL_COLOR_BUFFER_BIT);
 
