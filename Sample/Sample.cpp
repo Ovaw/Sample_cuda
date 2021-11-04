@@ -15,8 +15,8 @@ unsigned int num_points = 8;
 double point[][3] = { {1.0, 1.0, -1.0}, {-1.0, 1.0, -1.0}, {-1.0, -1.0, -1.0}, {1.0, -1.0, -1.0}, {1.0, 1.0, 1.0}, {-1.0, 1.0, 1.0}, {-1.0, -1.0, 1.0}, { 1.0, -1.0, 1.0} };
 unsigned int num_quads = 6;
 unsigned int quad[][4] = { {3, 2, 1, 0}, {0, 1, 5, 4}, {1, 2, 6, 5}, {2, 3, 7, 6}, {3, 0, 4, 7}, {4, 5, 6, 7} };
-unsigned int num_triangle = 12;
-unsigned int triangle[][3] = { {3, 2, 1}, {1, 0, 3}, {0, 1, 5}, {5, 4, 6}, {1, 2, 6}, {6, 5, 1}, {2, 3, 7}, {7, 6, 2}, {3, 6, 4}, {4, 7, 3}, {4, 5, 6}, {6, 7, 4} };
+unsigned int num_triangles = 12;
+unsigned int triangle[][3] = { {3, 2, 1}, {1, 0, 3}, {0, 1, 5}, {5, 4, 0}, {1, 2, 6}, {6, 5, 1}, {2, 3, 7}, {7, 6, 2}, {3, 0, 4}, {4, 7, 3}, {4, 5, 6}, {6, 7, 4} };
 
 // ウインドウサイズ用
 unsigned int window_width, window_height; 
@@ -42,6 +42,9 @@ double theta = 30.0;
 // マウス処理
 int mouse_old_x, mouse_old_y;
 bool motion_p;
+
+// 光源の位置
+float light_pos[4];
 
 // 2本のベクトルvec0とvec1の内積
 double dot(double vec0[], double vec1[])
@@ -71,6 +74,27 @@ void normVec(double vec[])
 	vec[X] /= norm;
 	vec[Y] /= norm;
 	vec[Z] /= norm;
+}
+
+// 3頂点を含っむ平面の単位法線ベクトルの計算
+void normal(double p0[], double p1[], double p2[], double normal[])
+// double p0[], p1[], p2[]: 凸ポリゴンの周囲の反時計回りにならぶ3頂点の座標
+// double normal[]; 計算された法線ベクトル
+{
+	unsigned int i;
+	double v0[3], v1[3];
+
+	// 基本となる2つのベクトルを生成
+	for (i = 0; i < 3; i++) {
+		v0[i] = p2[i] - p1[i];
+		v1[i] = p0[i] - p1[i];
+	}
+
+	// 生成したベクトルの外積を計算する
+	cross(v0, v1, normal);
+
+	// 外積によって得られた法線ベクトルを正規化
+	normVec(normal);
 }
 
 void defineViewMatrix(double phi, double theta)
@@ -165,25 +189,31 @@ void defineViewMatrix(double phi, double theta)
 void display(void)
 {
 	unsigned int i;
-	unsigned int r, g, b;
+	double nrml_vec[3];
+
+	// 光源の設定
+	light_pos[0] = (float)eye[X];
+	light_pos[1] = (float)eye[Y];
+	light_pos[2] = (float)eye[Z];
+	light_pos[3] = 0.0f;
+	glLightfv(GL_LIGHT0, GL_POSITION, light_pos); // 光源の定義
+
+	// 照明の点灯
+	glEnable(GL_LIGHTING);
 
 	// 正投影の定義
 	defineViewMatrix(phi, theta);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	glBegin(GL_QUADS);                            // これから描く図形のタイプ
+	glBegin(GL_TRIANGLES);                            // これから描く図形のタイプ
 
-	for (i = 0; i < num_quads; i++) {
-		r = (i + 1) / 4;
-		g = ((i + 1) % 4) / 2;
-		b = ((i + 1) % 4) % 2;
-		
-		glColor3f(1.0f * r, 1.0f * g, 1.0f * b);
-		glVertex3dv(point[quad[i][0]]);
-		glVertex3dv(point[quad[i][1]]);
-		glVertex3dv(point[quad[i][2]]);
-		glVertex3dv(point[quad[i][3]]);
+	for (i = 0; i < num_triangles; i++) {
+		normal(point[triangle[i][0]], point[triangle[i][1]], point[triangle[i][2]], nrml_vec);
+		glNormal3dv(nrml_vec);                        // 法線ベクトルをOpenGLに登録
+		glVertex3dv(point[triangle[i][0]]);
+		glVertex3dv(point[triangle[i][1]]);
+		glVertex3dv(point[triangle[i][2]]);
 	}
 
 	glEnd();
@@ -196,6 +226,7 @@ void initGL(void)
 	glEnable(GL_DEPTH_TEST);              // デプスバッファ機能GL_DEPTH_TESTを有効化
 	glClearDepth(1.0);                    
 	glDepthFunc(GL_LESS);
+	glEnable(GL_LIGHT0);
 }
 
 void resize(int width, int height) // 新しいサイズを取得し記録する
